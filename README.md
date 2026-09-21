@@ -1,5 +1,6 @@
 # Seznam Advertising Analytics
 
+[Dashboard interactivo](https://seznam-advertising-analytics-5ihyleia2utty79hl4r9wr.streamlit.app)
 Predicción del gasto mensual en publicidad online a partir del comportamiento histórico de los clientes.
 
 ## Introducción
