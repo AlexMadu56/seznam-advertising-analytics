@@ -362,12 +362,28 @@ def add_euro_kc_hover(fig, x, y, name, color, mode="lines"):
 # Load data
 # -----------------------------
 DATA_PATH = Path(__file__).parent / "dashboard_final.csv"
+DATA_URL = (
+    "https://github.com/AlexMadu56/seznam-advertising-analytics/"
+    "releases/download/v1.0.0/dashboard_final.csv.gz"
+)
 
 if not DATA_PATH.exists():
-    st.error(
-        "No se encuentra `dashboard_final.csv`. Coloca el archivo en la misma carpeta que `app.py`."
-    )
-    st.stop()
+    try:
+        import gzip
+        from urllib.request import urlretrieve
+
+        compressed_path = Path(__file__).parent / "dashboard_final.csv.gz"
+
+        urlretrieve(DATA_URL, compressed_path)
+
+        with gzip.open(compressed_path, "rb") as source, open(DATA_PATH, "wb") as target:
+            target.write(source.read())
+
+        compressed_path.unlink()
+
+    except Exception as exc:
+        st.error(f"No se pudo descargar el dataset del dashboard: {exc}")
+        st.stop()
 
 try:
     df = pd.read_csv(DATA_PATH)
